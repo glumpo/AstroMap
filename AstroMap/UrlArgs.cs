@@ -28,10 +28,11 @@ namespace AstroMap
             private class HeatMapArgs : UrlArgs
             {
                 public List<DataParser.Meteor> Data = new List<DataParser.Meteor>();
-                public string Rad = "3000k";
+                public string Rad = "1000k";
                 public int Width = 250;
                 public int Height = 250;
                 public int Opacity = 75;
+                public int MaxDataCount = 100;
             }
         }
     }

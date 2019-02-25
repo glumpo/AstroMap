@@ -64,7 +64,7 @@ namespace AstroMap
                 string otherParams = $"&z={args.Zoom}&h={args.Height}&w={args.Width}&op={args.Opacity}";
 
                 string dataPoints = "";
-                for (int i = 0; i < System.Math.Min(args.Data.Count, 100); ++i)
+                for (int i = 0; i < System.Math.Min(args.Data.Count, args.MaxDataCount); ++i)
                 {
                     dataPoints += $"&a{i}={args.Data[i].PositionRaw}&rad{i}={args.Rad}&l{i}=1";
                 }
@@ -134,8 +134,6 @@ namespace AstroMap
                 }
             }
         }
-
-        Bitmap CurentMap;
 
         /// <summary>
         /// Asynchronously get world map from REST API

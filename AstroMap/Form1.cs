@@ -12,21 +12,36 @@ namespace AstroMap
 {
     public partial class Form1 : Form
     {
+        private Map map;
+
         public Form1()
         {
             InitializeComponent();
+            map = new Map();
         }
 
         private async void Form1_Load(object sender, EventArgs e)
         {
-            Map map = new Map();
-            var wm = await map.GetHeatMap(@"C:\Users\fisherman\source\cSharp\PlayGraund\Meteorite_Landings_Big.csv");
+            var wm = await map.GetWorldMap();
             mapPictureBox.Image = wm;
         }
 
         private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private async void button1_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                var wm = await map.GetHeatMap(openFileDialog1.FileName);
+                mapPictureBox.Image = wm;
+            }
+            else
+            {
+                MessageBox.Show("Cant Open File Dialog");
+            }
         }
     }
 }
