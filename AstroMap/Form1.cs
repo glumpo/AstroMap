@@ -19,6 +19,7 @@ namespace AstroMap
         {
             InitializeComponent();
             Map = new MapApi();
+            Processor = null;
         }
 
         private async void Form1_Load(object sender, EventArgs e)
@@ -27,12 +28,7 @@ namespace AstroMap
             mapPictureBox.Image = wm;
         }
 
-        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private async void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
@@ -41,12 +37,24 @@ namespace AstroMap
                 var _proocessor = new DataProcessor<NasaCsv.Meteor>(parser);
                 Processor = _proocessor;
 
+                labelDatasetName.Text = openFileDialog1.SafeFileName;
+            }
+            else
+            {
+                MessageBox.Show("Cant Open File Dialog");
+            }
+        }
+
+        private async void button2_Click(object sender, EventArgs e)
+        {
+            if (Processor != null)
+            {
                 var wm = await Map.GetHeatMap(Processor.GetMeteors());
                 mapPictureBox.Image = wm;
             }
             else
             {
-                MessageBox.Show("Cant Open File Dialog");
+                MessageBox.Show("Dataset not Picked");
             }
         }
     }
