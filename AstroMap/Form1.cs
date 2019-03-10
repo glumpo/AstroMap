@@ -12,17 +12,18 @@ namespace AstroMap
 {
     public partial class Form1 : Form
     {
-        private Map map;
+        private MapApi Map;
+        private DataProcessor<MeteorBase> Processor;
 
         public Form1()
         {
             InitializeComponent();
-            map = new Map();
+            Map = new MapApi();
         }
 
         private async void Form1_Load(object sender, EventArgs e)
         {
-            var wm = await map.GetWorldMap();
+            var wm = await Map.GetWorldMap();
             mapPictureBox.Image = wm;
         }
 
@@ -35,7 +36,12 @@ namespace AstroMap
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                var wm = await map.GetHeatMap(openFileDialog1.FileName);
+                string pathToCsv = openFileDialog1.FileName;
+                NasaCsv.NasaCsvParser parser = new NasaCsv.NasaCsvParser(pathToCsv);
+                var _proocessor = new DataProcessor<NasaCsv.Meteor>(parser);
+                Processor = _proocessor;
+
+                var wm = await Map.GetHeatMap(Processor.GetMeteors());
                 mapPictureBox.Image = wm;
             }
             else

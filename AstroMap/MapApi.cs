@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AstroMap
 {
-    partial class Map
+    partial class MapApi
     {
         private static partial class HereApi
         {
@@ -104,7 +104,7 @@ namespace AstroMap
                 }
             }
 
-            public async static Task<Bitmap> GetHeatMap(List<DataParser.Meteor> data)
+            public async static Task<Bitmap> GetHeatMap(List<MeteorBase> data)
             {
                 Bitmap bitmapImage;
                 try
@@ -142,7 +142,7 @@ namespace AstroMap
         /// <returns>Bitmap with world map</returns>
         public async Task<Bitmap> GetWorldMap()
         {
-            // Map  is Square, so minRow == min Column and maxRow == max Column
+            // MapApi  is Square, so minRow == min Column and maxRow == max Column
             // 1 << zoom == Pow(2, zoom), google left shift to multiple 2. Fuck the Math.Pow
             const int zoom = 1;
             const int minRowAndColumn = 0;
@@ -196,9 +196,8 @@ namespace AstroMap
                 return res;
         }
 
-        public async Task<Bitmap> GetHeatMap(string pathToCsv)
+        public async Task<Bitmap> GetHeatMap(List<MeteorBase> data)
         {
-            var data = DataParser.ParseCSV(pathToCsv);
             Bitmap res = await HereApi.GetHeatMap(data);
             return res;
         }
